@@ -955,7 +955,7 @@ class BasicLayer_prompt(nn.Module):
                 if i == 0: 
                     x=self.blocks[i](x,x_shape,attn_mask) 
                 else: 
-                    prompt_emb = prompt[i-1]
+                    prompt_emb = prompt[:,i-1,...]
                     x = torch.cat(
                         (prompt_emb, x[:,self.num_tokens:,:]),dim=1
                     ) 
@@ -1137,7 +1137,7 @@ class SwinTransformer(nn.Module):
         x2 = self.layers2[0](x1.contiguous())          
         x2_view = x2.flatten(2) 
         x2_view = x2_view.transpose(1,2)               
-        x2_prompt = torch.cat((x2_view, prompt_list[0][0]),dim=1) 
+        x2_prompt = torch.cat((x2_view, prompt_list[0][:,:1,:].squeeze(1)),dim=1) 
         x2_shape = x2.shape                            
         x2_out = self.proj_out(x2, normalize) 
         x3, x3_prompt, x3_clas = self.layers3[0](x2_prompt.contiguous(), prompt_list[0].contiguous(), x2_shape)  
