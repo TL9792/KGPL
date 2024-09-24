@@ -259,54 +259,6 @@ class KGPL_model(nn.Module):
             spatial_dims=spatial_dims, in_channels=feature_size, out_channels=out_channels
         )  # type: ignore 
 
-    def load_from(self, weights): 
-        with torch.no_grad():  
-            self.swinViT.patch_embed.proj.weight.copy_(weights["state_dict"]["module.patch_embed.proj.weight"]) 
-            self.swinViT.patch_embed.proj.bias.copy_(weights["state_dict"]["module.patch_embed.proj.bias"])
-            for bname, block in self.swinViT.layers1[0].blocks.named_children():  
-                block.load_from(weights, n_block=bname, layer="layers1") 
-            self.swinViT.layers1[0].downsample.reduction.weight.copy_(
-                weights["state_dict"]["module.layers1.0.downsample.reduction.weight"]
-            )  
-            self.swinViT.layers1[0].downsample.norm.weight.copy_(
-                weights["state_dict"]["module.layers1.0.downsample.norm.weight"]
-            )  
-            self.swinViT.layers1[0].downsample.norm.bias.copy_(
-                weights["state_dict"]["module.layers1.0.downsample.norm.bias"]
-            )  
-            for bname, block in self.swinViT.layers2[0].blocks.named_children():
-                block.load_from(weights, n_block=bname, layer="layers2")
-            self.swinViT.layers2[0].downsample.reduction.weight.copy_(
-                weights["state_dict"]["module.layers2.0.downsample.reduction.weight"]
-            ) 
-            self.swinViT.layers2[0].downsample.norm.weight.copy_(
-                weights["state_dict"]["module.layers2.0.downsample.norm.weight"]
-            ) 
-            self.swinViT.layers2[0].downsample.norm.bias.copy_(
-                weights["state_dict"]["module.layers2.0.downsample.norm.bias"]
-            ) 
-            for bname, block in self.swinViT.layers3[0].blocks.named_children():
-                block.load_from(weights, n_block=bname, layer="layers3")
-            self.swinViT.layers3[0].downsample.reduction.weight.copy_(
-                weights["state_dict"]["module.layers3.0.downsample.reduction.weight"]
-            ) 
-            self.swinViT.layers3[0].downsample.norm.weight.copy_(
-                weights["state_dict"]["module.layers3.0.downsample.norm.weight"]
-            ) 
-            self.swinViT.layers3[0].downsample.norm.bias.copy_(
-                weights["state_dict"]["module.layers3.0.downsample.norm.bias"]
-            ) 
-            for bname, block in self.swinViT.layers4[0].blocks.named_children():
-                block.load_from(weights, n_block=bname, layer="layers4")
-            self.swinViT.layers4[0].downsample.reduction.weight.copy_(
-                weights["state_dict"]["module.layers4.0.downsample.reduction.weight"]
-            ) 
-            self.swinViT.layers4[0].downsample.norm.weight.copy_(
-                weights["state_dict"]["module.layers4.0.downsample.norm.weight"]
-            ) 
-            self.swinViT.layers4[0].downsample.norm.bias.copy_(
-                weights["state_dict"]["module.layers4.0.downsample.norm.bias"]
-            )  
 
     def forward(self, x_in, prompt): 
         """prompt: [B, 12, 768] 
