@@ -10,14 +10,4 @@ Overview of the Knowledge-Guided Prompt Learning (KGPL) for brain MRI across the
 ## Install
     pip install -r requirements.txt
 
-## Usage
-
-### For pre-training
-    python main_pretrain.py
-    
-### For training
-    python main.py
-
-### For testing
-    python test.py
 
